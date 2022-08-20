@@ -1,3 +1,104 @@
 body{
-    background-color: yellow;
+    font-family:'Courier New', Courier, monospace;
+    font-size:large;
+    background-color: darkgrey  ;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    height:100%;
+    width:100%;
+
+}
+
+#calcContainer{
+    border:solid 2px red;
+    width:500px;
+    height:700px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    
+}
+
+#display {
+    
+    border: solid 2px blue;
+    margin:15px;
+    padding:10px;
+    width: 450px;
+    height:100px;
+    display:flex;
+    justify-content:right;
+    align-items:center;
+
+}
+
+#numpad {
+    border: solid 2px blue;
+    margin:15px;
+    padding:10px;
+    width: 450px;
+    height: 500px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:space-between;
+}
+
+.padnum {
+    background-color: #F3FAE1;
+    border:solid 2px pink;
+    width:105px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.padFunc {
+    border:solid 2px pink;
+    background-color: #F3FAE1;
+    width:105px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.padEqual {
+    background-color: #FC6DAB;
+    border:solid 2px pink;
+    width:105px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+
+.padClear {
+    background-color: #C04CFD;
+    border:solid 2px pink;
+    width:105px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.pad0 {
+    background-color: #F3FAE1;
+    border:solid 2px pink;
+    width:220px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
 }
