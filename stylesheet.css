@@ -25,6 +25,7 @@ body{
 #display {
     
     border: solid 2px blue;
+    font-size: 83px;
     margin:15px;
     padding:10px;
     width: 450px;
@@ -101,4 +102,8 @@ body{
     justify-content:center;
     align-items:center;
 
+}
+
+#numpad div:hover {
+    cursor:grab;
 }
