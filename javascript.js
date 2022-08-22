@@ -23,6 +23,7 @@ let result = ''
 let currentDisplay = document.getElementById('display');
 let num1
 let num2
+let equalStatus = false
 
 const keyRegEx = /[0-9]/
 
@@ -107,12 +108,14 @@ let calcDiv = function(){
 
 //clear function
 function calcClear(){
+    console.log("CLEARED")
     currentDisplay.textContent = '0'
-    result = '0'
+    result = ''
     for (let key in calc){
         delete calc[key]
     }
     calc = {$1st:'',$op:'',$2nd:''};
+    equalStatus = false;
 }
 
 
@@ -120,6 +123,7 @@ function calcClear(){
 function calcEquals(){
    calc.$op()
    currentDisplay.textContent = result;
+   equalStatus = true;
    displaySplitter();
    console.table(calc);
 }
@@ -139,15 +143,6 @@ function numInput(){
         console.table(calc);
     }
 
-    if(!operatorEmpty(calc.$op) && !isEmpty(calc.$2nd)){
-        delete calc.$2nd;
-        calc.$2nd = e.toString();
-        currentDisplay.textContent = calc.$2nd;
-        calcEquals();
-        console.table(calc);
-
-
-    }
     if (calc.$1st =="00"){
         calc.$1st = ''
         currentDisplay.textContent= '0'
@@ -195,12 +190,21 @@ function decInput(){
 // POSITIVE OR NEGATIVE KEY
 
 function posOrNeg(){
+if (typeof result === 'number'){
+    calc.$1st = result.toString();
+    currentDisplay.textContent = calc.$1st
+    calc.$op = ''
+    calc.$2nd = ''
+    result = result.toString();
+}
     if (operatorEmpty(calc.$op) && isEmpty(calc.$2nd)){
         if(parseFloat(calc.$1st)>0){
+            console.log('triggered')
             num1 = calc.$1st.padStart(calc.$1st.length+1,'-')
             currentDisplay.textContent=num1;
             calc.$1st=num1;
             console.table(calc);
+
         }
         else{
         num1 = calc.$1st.slice(1);
@@ -229,6 +233,14 @@ function posOrNeg(){
 //percentage function
 
 function percentFunc(){
+    if (typeof result === 'number'){
+        calc.$1st = result.toString();
+        currentDisplay.textContent = calc.$1st
+        calc.$op = ''
+        calc.$2nd = ''
+        result = result.toString();
+    }
+
     if (operatorEmpty(calc.$op) && isEmpty(calc.$2nd)){
         calc.$1st = num1 = (parseFloat(calc.$1st)/100).toString()
         currentDisplay.textContent = num1
@@ -246,10 +258,10 @@ function percentFunc(){
 clear.addEventListener('click',calcClear);
 plusminus.addEventListener('click',posOrNeg);
 percentage.addEventListener('click',percentFunc)
-divide.addEventListener('click',function(){calc.$op=calcDiv});
-multiply.addEventListener('click',function(){calc.$op=calcMulti});
-subtract.addEventListener('click',function(){calc.$op=calcSubtract});
-add.addEventListener('click',function(){calc.$op=calcAdd});
+divide.addEventListener('click',function(){trueOpFunc(calcDiv)});
+multiply.addEventListener('click',function(){trueOpFunc(calcMulti)});
+subtract.addEventListener('click',function(){trueOpFunc(calcSubtract)});
+add.addEventListener('click',function(){trueOpFunc(calcAdd)});
 decimal.addEventListener('click',decInput);
 one.addEventListener('click',numInput);
 two.addEventListener('click',numInput);
@@ -263,10 +275,38 @@ nine.addEventListener('click',numInput);
 zero.addEventListener('click',numInput);
 equals.addEventListener('click',calcEquals);
 
+/// new functions for operators
+
+let trueOpFunc = function(opHere){
+    //if there's something in the operator field
+if (operatorEmpty()==false && equalStatus==true){
+    console.log("equal status is true");
+    calc.$1st = result.toString()
+    calc.$op=opHere;
+    calc.$2nd = '';
+    equalStatus == false;
+}
+if (operatorEmpty()==false && equalStatus == false){
+    console.log("trueopfunc equal was not pressed");
+    calcEquals();
+    calc.$1st = result.toString()
+    calc.$op=opHere;
+    calc.$2nd = '';
+}
+else {console.log("regular true op fxn");calc.$op = opHere}
+}
+
+
+
+
+
+
+
 document.addEventListener('keydown', (e)=>{
 if (e.key.match(keyRegEx)){
 keyNumInput(e.key)}}
 )
+
 
 /////KEYBOARD LISTENER//////
 /////Keyboard Num Input////
@@ -306,7 +346,7 @@ document.addEventListener('keydown', (e)=>{
 //add//
 document.addEventListener('keydown', (e)=>{
     if (e.key=="+"){
-    calc.$op=calcAdd
+    trueOpFunc(calcAdd);
     }}
     )
 
@@ -314,21 +354,21 @@ document.addEventListener('keydown', (e)=>{
 
 document.addEventListener('keydown', (e)=>{
     if (e.key=="-"){
-    calc.$op=calcSubtract
+        trueOpFunc(calcSubtract);
     }}
     )
 
 //multiply//
 document.addEventListener('keydown', (e)=>{
     if (e.key=="*"){
-    calc.$op=calcMulti
+        trueOpFunc(calcMulti);
     }}
     )
 
 //divide//
 document.addEventListener('keydown', (e)=>{
     if (e.key=="/"){
-    calc.$op=calcDiv
+        trueOpFunc(calcDiv);
     }}
     )
 
@@ -342,7 +382,7 @@ document.addEventListener('keydown', (e)=>{
 
 //decimal//
 document.addEventListener('keydown', (e)=>{
-    if (e.key=="."||e.key=="Backspace"){
+    if (e.key=="."){
     decInput();
     }}
     )
