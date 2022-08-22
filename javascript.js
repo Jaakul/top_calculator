@@ -25,8 +25,10 @@ let num1
 let num2
 let equalStatus = false
 
+///regular expression for keyboard listener///
 const keyRegEx = /[0-9]/
 
+/// functions that test true/false
 function operatorEmpty(){
 if (typeof calc.$op == 'function'){
     return false
@@ -64,7 +66,7 @@ function displaySplitter(){
     }
 
 
-//all operator functions
+///all operator functions - + * ////
 let calcAdd = function(){
     a = parseFloat(calc.$1st)
     b = parseFloat(calc.$2nd)
@@ -106,7 +108,7 @@ let calcDiv = function(){
 
     }
 
-//clear function
+///clear screen function///
 function calcClear(){
     console.log("CLEARED")
     currentDisplay.textContent = '0'
@@ -119,7 +121,7 @@ function calcClear(){
 }
 
 
-//EQUALS runs the current operation stored in calculator.operator         
+//EQUALS function runs the current operation stored in calc.$op///
 function calcEquals(){
    calc.$op()
    currentDisplay.textContent = result;
@@ -157,10 +159,6 @@ function numInput(){
     
 }
 
-//prevents multiple decimal insertion
-function decCount(str,x){
-    return (str.split(x)).length - 1;
-}
 
 //adds a decimal
 function decInput(){
@@ -183,12 +181,14 @@ function decInput(){
         console.table(calc);
     }
     displaySplitter()
-
+}
+//prevents multiple decimal insertion
+function decCount(str,x){
+    return (str.split(x)).length - 1;
 }
 
 
-// POSITIVE OR NEGATIVE KEY
-
+// POSITIVE OR NEGATIVE KEY //
 function posOrNeg(){
 if (typeof result === 'number'){
     calc.$1st = result.toString();
@@ -280,35 +280,28 @@ equals.addEventListener('click',calcEquals);
 let trueOpFunc = function(opHere){
     //if there's something in the operator field
 if (operatorEmpty()==false && equalStatus==true){
-    console.log("equal status is true");
     calc.$1st = result.toString()
     calc.$op=opHere;
     calc.$2nd = '';
     equalStatus == false;
 }
 if (operatorEmpty()==false && equalStatus == false){
-    console.log("trueopfunc equal was not pressed");
     calcEquals();
     calc.$1st = result.toString()
     calc.$op=opHere;
     calc.$2nd = '';
 }
-else {console.log("regular true op fxn");calc.$op = opHere}
+else {calc.$op = opHere}
 }
 
 
 
 
-
-
-
-document.addEventListener('keydown', (e)=>{
-if (e.key.match(keyRegEx)){
-keyNumInput(e.key)}}
-)
-
-
 /////KEYBOARD LISTENER//////
+document.addEventListener('keydown', (e)=>{
+    if (e.key.match(keyRegEx)){
+    keyNumInput(e.key)}}
+    )
 /////Keyboard Num Input////
 function keyNumInput(x){
     e=x
@@ -378,7 +371,6 @@ document.addEventListener('keydown', (e)=>{
     calcClear()
     }}
     )
-
 
 //decimal//
 document.addEventListener('keydown', (e)=>{
