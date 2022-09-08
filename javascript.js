@@ -1,3 +1,5 @@
+(function(){
+
 const clear = document.getElementById('clear');
 const plusminus = document.getElementById('plusminus');
 const percentage = document.getElementById('percentage');
@@ -378,3 +380,7 @@ document.addEventListener('keydown', (e)=>{
     decInput();
     }}
     )
+
+
+
+})();
